@@ -20,16 +20,16 @@ public class WeatherForecastController : ControllerBase
     }
 
     // GET: /WeatherForecast/5
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<WeatherForecast>> Get(int id)
-    // {
-    //     var weatherForecast = await _context.WeatherForecasts.FindAsync(id);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<WeatherForecast>> Get(int id)
+    {
+        var weatherForecast = await _context.WeatherForecasts.FindAsync(id);
 
-    //     if (weatherForecast == null)
-    //     {
-    //         return NotFound();
-    //     }
+        if (weatherForecast == null)
+        {
+            return NotFound();
+        }
 
-    //     return weatherForecast;
-    // }
+        return weatherForecast;
+    }
 } 

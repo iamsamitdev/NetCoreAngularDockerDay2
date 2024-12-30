@@ -1,0 +1,39 @@
+# frontend (Angular 19)
+# คำสั่งสร้างโปรเจ็กต์ใหม่
+MacOS
+—
+docker run --rm -v ${PWD}:/frontend -w /frontend node:20.15.0-alpine sh -c "npm install -g @angular/cli && ng new frontend --defaults"
+
+Windows
+—
+docker run --rm -v %cd%/:/frontend -w /frontend node:20.15.0-alpine sh -c "npm install -g @angular/cli && ng new frontend --defaults"
+
+# backend (.NET 9) 
+# คำสั่งสร้างโปรเจ็กต์ใหม่
+MacOS
+—
+docker run --rm -v ${PWD}:/backend -w /backend mcr.microsoft.com/dotnet/sdk:9.0 dotnet new webapi -o backend
+
+Windows
+—
+docker run --rm -v %cd%/:/backend -w /backend mcr.microsoft.com/dotnet/sdk:9.0 dotnet new webapi -o backend
+
+# คำสั่ง run compose file
+Dev mode
+—
+docker compose -f docker-compose.dev.yml up -d --build
+
+Production mode
+—
+docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+
+# เรียกใช้งานที่
+Dev mode
+—
+frontend: http://localhost:4200
+backend: http://localhost:5001/weatherforecast
+
+Production mode
+—
+frontend: http://localhost:90
+backend: http://localhost:80/weatherforecast
