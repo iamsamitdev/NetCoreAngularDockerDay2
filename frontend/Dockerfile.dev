@@ -1,0 +1,16 @@
+FROM node:20.15.0-alpine
+
+WORKDIR /app
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli@19
+
+# Install development tools
+RUN apk add --no-cache git inotify-tools
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Start development server
+CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"] 

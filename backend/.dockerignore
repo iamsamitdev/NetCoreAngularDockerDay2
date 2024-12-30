@@ -1,0 +1,27 @@
+# .NET build folders
+bin/
+obj/
+out/
+
+# Development files
+*.user
+*.suo
+*.vs
+.vscode/
+.idea/
+
+# Git folders
+.git/
+.gitignore
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# Environment files
+*.env
+appsettings.*.json 

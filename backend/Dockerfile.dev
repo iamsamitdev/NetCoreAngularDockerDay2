@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+
+WORKDIR /src/backend
+
+# Install development tools
+RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-watch
+
+# Add tools to PATH
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Watch mode with hot reload
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:80"] 

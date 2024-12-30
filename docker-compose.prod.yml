@@ -1,0 +1,42 @@
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  db:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./sqldata:/var/opt/mssql
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MyApp;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "90:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  sqldata: 

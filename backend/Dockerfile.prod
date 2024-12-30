@@ -1,0 +1,25 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+COPY ["*.csproj", "./"]
+RUN dotnet restore
+
+COPY . .
+RUN dotnet publish -c Release -o /app/publish
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Security and performance optimizations
+ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_EnableDiagnostics=0
+
+# Create non-root user
+RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+ENTRYPOINT ["dotnet", "backend.dll"]
